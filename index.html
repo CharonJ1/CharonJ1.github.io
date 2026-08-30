@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>曾佳宜 · 个人简历</title>
 
-  <!-- Fonts -->
+  <!-- Fonts: Geist (Latin) + Noto Sans SC (CJK) + Inter fallback -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,7 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'Noto Sans SC', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            sans: ['Geist', 'Inter', 'Noto Sans SC', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
           },
           colors: {
             paper: '#FAFAFA',
@@ -53,6 +53,7 @@
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.005em;
     }
 
     /* Link underline expand effect */
@@ -74,9 +75,9 @@
       width: 100%;
     }
 
-    /* Card hover: only border darkens */
+    /* Card hover: only border darkens, no scale, no shift */
     .card-hover {
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
     .card-hover:hover {
       border-color: var(--border-hover);
@@ -113,6 +114,7 @@
       z-index: 2000;
       pointer-events: none;
       white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
     .toast.show {
       opacity: 1;
@@ -120,29 +122,26 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Print styles */
+    /* Print styles — A4-friendly */
     @media print {
       @page {
-        margin: 16mm;
+        margin: 14mm 16mm;
         size: A4;
       }
 
-      html {
-        background: #fff !important;
-      }
-
-      body {
+      html, body {
         background: #fff !important;
         color: #000 !important;
         padding: 0 !important;
         margin: 0 !important;
+        font-family: 'Geist', 'Inter', 'Noto Sans SC', sans-serif !important;
       }
 
       .no-print,
-      .print-hide,
       nav,
       button,
-      .back-to-top {
+      .back-to-top,
+      .toast {
         display: none !important;
       }
 
@@ -186,16 +185,17 @@
         text-decoration: none !important;
       }
 
-      a[href^="http"]::after {
-        content: " (" attr(href) ")";
-        font-size: 0.75rem;
-        color: #52525B;
-      }
-
       img {
-        max-height: 90px;
+        max-height: 80px;
         object-fit: contain;
       }
+
+      h1 { font-size: 26pt !important; }
+      h2 { font-size: 13pt !important; }
+      h3 { font-size: 11pt !important; }
+      p, li, span, div { font-size: 9.5pt !important; }
+
+      section { margin-bottom: 18pt !important; }
     }
   </style>
 </head>
@@ -204,12 +204,12 @@
   <!-- Toast -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- Navigation -->
+  <!-- Top navigation — Linear/Notion minimal strip -->
   <nav class="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md no-print">
     <div class="mx-auto max-w-4xl px-6">
       <div class="flex h-14 items-center justify-between">
-        <a href="#top" class="text-sm font-semibold tracking-tight text-zinc-900">曾佳宜</a>
-        <div class="flex items-center gap-2">
+        <a href="#top" class="text-sm font-semibold tracking-tight text-zinc-900 link-underline">曾佳宜</a>
+        <div class="flex items-center gap-1">
           <button onclick="copyEmail()" class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900">
             <i data-lucide="mail" class="h-3.5 w-3.5"></i>
             邮箱
@@ -227,65 +227,62 @@
     </div>
   </nav>
 
-  <main id="top" class="mx-auto max-w-4xl px-6 pb-20 pt-12">
+  <main id="top" class="mx-auto max-w-4xl px-6 pb-20 pt-16">
 
     <!-- Header / Hero -->
-    <header class="mb-16 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-      <div>
-        <h1 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">曾佳宜</h1>
-        <p class="mt-2 text-base font-medium text-zinc-700">广东外语外贸大学 · 审计学专业 2026级</p>
-        <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
-            <span class="relative flex h-1.5 w-1.5">
-              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+    <header class="mb-20">
+      <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0 flex-1">
+          <h1 class="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">曾佳宜</h1>
+          <p class="mt-3 text-base font-medium text-zinc-700">广东外语外贸大学 · 审计学专业 2026级</p>
+          <div class="mt-4 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700">
+              <span class="relative flex h-1.5 w-1.5">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+              </span>
+              准大一新生
             </span>
-            准大一新生
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
-            <i data-lucide="map-pin" class="h-3 w-3"></i>
-            广东
-          </span>
-          <a href="https://charonj1.github.io" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 link-underline">
-            <i data-lucide="globe" class="h-3 w-3"></i>
-            charonj1.github.io
-          </a>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700">
+              <i data-lucide="map-pin" class="h-3 w-3"></i>
+              广东
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700">
+              <i data-lucide="graduation-cap" class="h-3 w-3"></i>
+              审计学
+            </span>
+          </div>
+          <p class="mt-5 max-w-2xl text-[15px] leading-relaxed text-zinc-600">
+            准大一新生，已获 15 项 AI 领域专业认证，涵盖 Prompt 工程、大模型应用、AIGC 设计、智能客服训练、智能体、微调与 RAG 等方向。
+            高考英语 135 分，致力于探索 AI 与审计、商业分析的跨界融合。
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">Prompt 工程</span>
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">大模型应用</span>
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">AIGC 设计</span>
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">智能客服训练</span>
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">AI + 审计</span>
+            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">英语 135 分</span>
+          </div>
         </div>
-        <p class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-600">
-          准大一新生，已获 15 项 AI 领域专业认证，涵盖 Prompt 工程、大模型应用、AIGC 设计、智能客服训练、智能体、微调与 RAG 等方向。
-          高考英语 135 分，致力于探索 AI 与审计、商业分析的跨界融合。
-        </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">Prompt 工程</span>
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">大模型应用</span>
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">AIGC 设计</span>
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">智能客服训练</span>
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">AI + 审计</span>
-          <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">英语 135 分</span>
+
+        <!-- Avatar (printable) -->
+        <div class="shrink-0">
+          <div class="h-28 w-28 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100 sm:h-32 sm:w-32">
+            <img src="微信图片_2026-08-15_173553_939.jpg" alt="曾佳宜 头像" class="h-full w-full object-cover" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
 
-      <!-- Avatar -->
-      <div class="shrink-0 no-print">
-        <div class="h-28 w-28 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100 sm:h-32 sm:w-32">
-          <img src="微信图片_2026-08-15_173553_939.jpg" alt="曾佳宜 头像" class="h-full w-full object-cover" loading="lazy" decoding="async">
-        </div>
-      </div>
-
-      <!-- Print-only header contact -->
-      <div class="hidden print-block text-right text-sm text-zinc-600">
+      <!-- Print-only header contact (rendered only when printing) -->
+      <div class="hidden print:block mt-4 text-right text-sm text-zinc-600">
         <div>19865911001@139.com</div>
         <div>19865911001</div>
-        <div>charonj1.github.io</div>
       </div>
     </header>
 
-    <!-- Contact actions (visible on screen, hidden on print) -->
-    <div class="mb-16 flex flex-wrap items-center gap-3 no-print">
-      <a href="https://charonj1.github.io" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-400 hover:text-zinc-900 card-hover">
-        <i data-lucide="globe" class="h-4 w-4"></i>
-        个人主页
-      </a>
+    <!-- Contact quick-actions (screen only) -->
+    <div class="mb-20 flex flex-wrap items-center gap-2 no-print">
       <button onclick="copyEmail()" class="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-400 hover:text-zinc-900 card-hover">
         <i data-lucide="mail" class="h-4 w-4"></i>
         复制邮箱
@@ -301,9 +298,9 @@
     </div>
 
     <!-- Highlights -->
-    <section class="mb-16">
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">亮点成果</h2>
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">亮点成果</h2>
         <span class="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">4</span>
       </div>
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -318,7 +315,7 @@
           <div class="mt-1 text-xs text-zinc-500">优秀的英语阅读与书面表达能力</div>
         </div>
         <div class="rounded-xl border border-zinc-200 bg-white p-5 card-hover avoid-break">
-          <div class="text-2xl font-bold tracking-tight text-zinc-900">4</div>
+          <div class="text-2xl font-bold tracking-tight text-zinc-900">6</div>
           <div class="mt-1 text-sm font-medium text-zinc-700">AI 技能领域</div>
           <div class="mt-1 text-xs text-zinc-500">从 Prompt 设计到智能体应用搭建</div>
         </div>
@@ -331,10 +328,10 @@
     </section>
 
     <!-- Experience Timeline -->
-    <section class="mb-16">
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">经历</h2>
-        <span class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">经历</h2>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-0.5 text-xs font-medium text-zinc-700">
           <span class="relative flex h-1.5 w-1.5">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
@@ -343,7 +340,7 @@
         </span>
       </div>
 
-      <div class="relative space-y-8 pl-5">
+      <div class="relative space-y-10 pl-5">
         <!-- Timeline item: Education -->
         <div class="timeline-item relative avoid-break">
           <span class="timeline-line"></span>
@@ -357,15 +354,15 @@
             <ul class="mt-3 space-y-1.5 text-sm text-zinc-600">
               <li class="flex gap-2">
                 <span class="text-zinc-400">·</span>
-                <span>即将入学，预计主修财务审计、数据分析、信息系统审计等核心课程</span>
+                <span>已被录取，将于 2026 年 9 月入学，正式开启审计学本科阶段</span>
               </li>
               <li class="flex gap-2">
                 <span class="text-zinc-400">·</span>
-                <span>高考英语 135 分，具备优秀的英语阅读与书面表达能力</span>
+                <span>入学前自主完成 15 项 AI 领域认证，提前构建「AI + 审计」复合知识框架</span>
               </li>
               <li class="flex gap-2">
                 <span class="text-zinc-400">·</span>
-                <span>计划将 AI 技术与审计实务相结合，探索智能化审计应用场景</span>
+                <span>在校方向：深耕审计专业课程，同步探索大模型在审计流程中的落地应用</span>
               </li>
             </ul>
           </div>
@@ -374,7 +371,7 @@
         <!-- Timeline item: Work placeholder -->
         <div class="timeline-item relative avoid-break">
           <span class="timeline-line"></span>
-          <span class="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
+          <span class="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
           <div class="rounded-xl border border-zinc-200 bg-white p-5 card-hover">
             <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
               <h3 class="text-base font-semibold text-zinc-900">工作经历</h3>
@@ -386,7 +383,7 @@
 
         <!-- Timeline item: Internship placeholder -->
         <div class="timeline-item relative avoid-break">
-          <span class="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
+          <span class="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
           <div class="rounded-xl border border-zinc-200 bg-white p-5 card-hover">
             <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
               <h3 class="text-base font-semibold text-zinc-900">实习经历</h3>
@@ -399,9 +396,9 @@
     </section>
 
     <!-- Skills -->
-    <section class="mb-16">
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">专业技能</h2>
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">专业技能</h2>
         <span class="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">5</span>
       </div>
       <div class="grid gap-4 sm:grid-cols-2">
@@ -453,11 +450,11 @@
       </div>
     </section>
 
-    <!-- Education -->
-    <section class="mb-16">
+    <!-- Education (highlight badge) -->
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">教育背景</h2>
-        <span class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">教育背景</h2>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-0.5 text-xs font-medium text-zinc-700">
           <span class="relative flex h-1.5 w-1.5">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
@@ -474,20 +471,20 @@
         <ul class="mt-3 space-y-1.5 text-sm text-zinc-600">
           <li class="flex gap-2">
             <span class="text-zinc-400">·</span>
-            <span>高考英语 135 分，具备良好的英语阅读与书面表达能力</span>
+            <span>核心课程（预期）：财务审计、数据分析、信息系统审计等</span>
           </li>
           <li class="flex gap-2">
             <span class="text-zinc-400">·</span>
-            <span>即将入学，预计主修财务审计、数据分析、信息系统审计等核心课程</span>
+            <span>高考英语 135 分，英语阅读与书面表达功底扎实</span>
           </li>
         </ul>
       </div>
     </section>
 
-    <!-- Interests：个人特长与兴趣爱好 -->
-    <section class="mb-16">
+    <!-- Interests -->
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">个人特长与兴趣爱好</h2>
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">个人特长与兴趣爱好</h2>
         <span class="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">3</span>
       </div>
       <div class="grid gap-4 sm:grid-cols-3">
@@ -515,17 +512,17 @@
       </div>
     </section>
 
-        <!-- Certificates -->
-    <section class="mb-16">
+    <!-- Certificates -->
+    <section class="mb-20">
       <div class="mb-6 flex items-center gap-3">
-        <h2 class="text-lg font-bold tracking-tight text-zinc-900">证书与获奖</h2>
+        <h2 class="text-base font-bold tracking-tight text-zinc-900">证书与获奖</h2>
         <span class="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">15</span>
       </div>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
         <a href="Ai大学认证证书.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="Ai大学认证证书.png" alt="Prompt工程师认证" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="Ai大学认证证书.png" alt="Prompt工程师认证" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">Prompt 工程师认证</h3>
@@ -539,7 +536,7 @@
 
         <a href="Ai大学认证证书 (1).png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="Ai大学认证证书 (1).png" alt="智能体工程师认证" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="Ai大学认证证书 (1).png" alt="智能体工程师认证" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">智能体工程师认证</h3>
@@ -553,7 +550,7 @@
 
         <a href="Ai大学认证证书 (2).png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="Ai大学认证证书 (2).png" alt="微调工程师认证" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="Ai大学认证证书 (2).png" alt="微调工程师认证" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">微调工程师认证</h3>
@@ -567,7 +564,7 @@
 
         <a href="Ai大学认证证书 (3).png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="Ai大学认证证书 (3).png" alt="RAG工程师认证" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="Ai大学认证证书 (3).png" alt="RAG工程师认证" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">RAG 工程师认证</h3>
@@ -579,9 +576,9 @@
           </div>
         </a>
 
-        <a href="人工智能初识微认证.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
+        <a href="11922f8d61784895ba1ae2b7643bcccc_03170501015620260829026413475b2282b53042df8d987b6f8eac3795.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="人工智能初识微认证.png" alt="人工智能初识微认证" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="11922f8d61784895ba1ae2b7643bcccc_03170501015620260829026413475b2282b53042df8d987b6f8eac3795.png" alt="人工智能初识微认证" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">人工智能初识微认证</h3>
@@ -595,7 +592,7 @@
 
         <a href="img_567f6a21e5305c6ba345fa8d891bd733.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_567f6a21e5305c6ba345fa8d891bd733.png" alt="大模型认证：基于百炼平台构建智能体应用" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_567f6a21e5305c6ba345fa8d891bd733.png" alt="大模型认证：基于百炼平台构建智能体应用" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">基于百炼平台构建智能体应用</h3>
@@ -609,7 +606,7 @@
 
         <a href="img_0354299f8ed834346481d5499ab5e53b.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_0354299f8ed834346481d5499ab5e53b.png" alt="VISION人工智能设计（入门）" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_0354299f8ed834346481d5499ab5e53b.png" alt="VISION人工智能设计（入门）" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">VISION 人工智能设计（入门）</h3>
@@ -623,7 +620,7 @@
 
         <a href="img_8e726da090884b47a13f94ca5560bacf.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_8e726da090884b47a13f94ca5560bacf.png" alt="VISION人工智能设计（进阶）" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_8e726da090884b47a13f94ca5560bacf.png" alt="VISION人工智能设计（进阶）" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">VISION 人工智能设计（进阶）</h3>
@@ -637,7 +634,7 @@
 
         <a href="img_be0aab789800073bb903a5e17bf18037.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_be0aab789800073bb903a5e17bf18037.png" alt="大模型认证：基于通义灵码实现高效AI编码实践" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_be0aab789800073bb903a5e17bf18037.png" alt="大模型认证：基于通义灵码实现高效AI编码实践" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">基于通义灵码实现高效 AI 编码实践</h3>
@@ -651,7 +648,7 @@
 
         <a href="img_c871ea2ec8b5eb90687610d2d262814a.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_c871ea2ec8b5eb90687610d2d262814a.png" alt="基于PAI ArtLab的AIGC设计基础" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_c871ea2ec8b5eb90687610d2d262814a.png" alt="基于PAI ArtLab的AIGC设计基础" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">基于 PAI ArtLab 的 AIGC 设计基础</h3>
@@ -665,7 +662,7 @@
 
         <a href="img_48d3d1bc9d6099033ae0e200da0cd007.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_48d3d1bc9d6099033ae0e200da0cd007.png" alt="大模型Clouder认证：RAG应用构建及优化" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_48d3d1bc9d6099033ae0e200da0cd007.png" alt="大模型Clouder认证：RAG应用构建及优化" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">RAG 应用构建及优化</h3>
@@ -679,7 +676,7 @@
 
         <a href="img_bac0defb67f6c0e166979a383a5084f4.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_bac0defb67f6c0e166979a383a5084f4.png" alt="大模型Clouder认证：Spring AI 应用开发（入门）" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_bac0defb67f6c0e166979a383a5084f4.png" alt="大模型Clouder认证：Spring AI 应用开发（入门）" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">Spring AI 应用开发（入门）</h3>
@@ -693,7 +690,7 @@
 
         <a href="img_cddc7da11522c910eebbe560585bbc45.png" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="img_cddc7da11522c910eebbe560585bbc45.png" alt="大模型Clouder认证：利用大模型提升内容生产能力" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="img_cddc7da11522c910eebbe560585bbc45.png" alt="大模型Clouder认证：利用大模型提升内容生产能力" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">利用大模型提升内容生产能力</h3>
@@ -707,7 +704,7 @@
 
         <a href="人工智能训练师（初级）-曾佳宜-20260718.jpg" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="人工智能训练师（初级）-曾佳宜-20260718.jpg" alt="人工智能训练师（初级）" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="人工智能训练师（初级）-曾佳宜-20260718.jpg" alt="人工智能训练师（初级）" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">人工智能训练师（初级）</h3>
@@ -721,7 +718,7 @@
 
         <a href="人工智能训练师（高级）-曾佳宜-20260719.jpg" target="_blank" class="group block rounded-xl border border-zinc-200 bg-white p-0 card-hover avoid-break overflow-hidden sm:col-span-2 lg:col-span-1">
           <div class="aspect-[16/10] overflow-hidden bg-zinc-50">
-            <img src="人工智能训练师（高级）-曾佳宜-20260719.jpg" alt="人工智能训练师（高级）" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]">
+            <img src="人工智能训练师（高级）-曾佳宜-20260719.jpg" alt="人工智能训练师（高级）" class="h-full w-full object-cover" loading="lazy" decoding="async">
           </div>
           <div class="p-4">
             <h3 class="text-sm font-semibold leading-snug text-zinc-900 link-underline inline">人工智能训练师（高级）</h3>
@@ -738,14 +735,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-zinc-200 pt-8 text-center text-xs text-zinc-500">
-      <p>© 2026 曾佳宜 · 简历最后更新 2026年8月</p>
+      <p>© 2026 曾佳宜 · 简历最后更新 2026 年 8 月</p>
       <p class="mt-1">邮箱 19865911001@139.com · 电话 19865911001</p>
     </footer>
 
   </main>
 
   <!-- Back to top -->
-  <button id="backTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="back-to-top fixed bottom-6 right-6 hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 shadow-sm transition-colors hover:border-zinc-400 hover:text-zinc-900 no-print" aria-label="返回顶部">
+  <button id="backTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="back-to-top fixed bottom-6 right-6 hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 no-print" aria-label="返回顶部">
     <i data-lucide="arrow-up" class="h-4 w-4"></i>
   </button>
 
